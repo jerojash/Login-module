@@ -1,11 +1,11 @@
 
-export class UserDTO {
+export class registerUserDTO {
 
-    constructor(public firstName: string,
+    constructor(public username: string, 
+        public password: string,
+        public firstName: string,
         public lastName: string, 
-        public email: string, 
-        public age: number, 
-        public password: string
+        public email: string
         ){};
 
   }
