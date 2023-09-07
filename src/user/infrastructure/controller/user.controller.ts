@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { registerUserDTO } from "../../application/dto/registerUser.dto";
 import RegisterUserApplication from "../../application/registerUser";
-import { registerUserReturnDTO } from "../../application/dto/registerUserReturn.dto";
+import { userReturnDTO } from "../../application/dto/registerUserReturn.dto";
 
 export default class UserController{
-    constructor(private userRegister: RegisterUserApplication<registerUserReturnDTO>){
+    constructor(private userRegister: RegisterUserApplication<userReturnDTO>){
         this.insertUser = this.insertUser.bind(this)
     }
 

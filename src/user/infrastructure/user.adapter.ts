@@ -1,13 +1,13 @@
 import { Either } from "../../generics/Either";
 import { registerUserDTO } from "../application/dto/registerUser.dto";
-import { registerUserReturnDTO } from "../application/dto/registerUserReturn.dto";
+import { userReturnDTO } from "../application/dto/registerUserReturn.dto";
 import { User } from "../domain/User";
 import { IUser } from "../domain/repository/IUser";
 import UserModel from "./model/user.schema";
 import bcrypt from 'bcrypt';
 
-export class UserAdapterRepository implements IUser<registerUserReturnDTO>{
-    async registerUser(user: User): Promise<Either<Error,registerUserReturnDTO>>{
+export class UserAdapterRepository implements IUser<userReturnDTO>{
+    async registerUser(user: User): Promise<Either<Error,userReturnDTO>>{
         
         const hashedPassword = await bcrypt.hash(user.getPassword().getPassword(),10);
 
@@ -20,15 +20,15 @@ export class UserAdapterRepository implements IUser<registerUserReturnDTO>{
         try {
             await UserModel.create(UserEntity);
 
-            const UserEntityReturn = new registerUserReturnDTO(user.getUsername().getUsername(),
+            const UserEntityReturn = new userReturnDTO(user.getUsername().getUsername(),
                             user.getFullName().getFirstName(),
                             user.getFullName().getLastName(),
                             user.getEmail().getEmail(),user.getId().getId(),);
 
-            return Either.makeRight<Error,registerUserReturnDTO>(UserEntityReturn);
+            return Either.makeRight<Error,userReturnDTO>(UserEntityReturn);
         } catch (error) {
 
-            return Either.makeLeft<Error, registerUserReturnDTO>(new Error(`Error: ${error}`));
+            return Either.makeLeft<Error, userReturnDTO>(new Error(`Error: ${error}`));
         }
         
     }

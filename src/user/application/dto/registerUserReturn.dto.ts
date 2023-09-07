@@ -1,5 +1,5 @@
 
-export class registerUserReturnDTO {
+export class userReturnDTO {
 
     constructor(
         public username: string,
