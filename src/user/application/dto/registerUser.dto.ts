@@ -1,13 +1,19 @@
+import { registerUserReturnDTO } from "./registerUserReturn.dto";
 
-export class registerUserDTO {
+export class registerUserDTO extends registerUserReturnDTO{
 
+    public username!: string; 
+    public password: string;
+    public firstName!: string;
+    public lastName!: string; 
+    public email!: string;
+    public id?: string;
     constructor(
-        public username: string, 
-        public password: string,
-        public firstName: string,
-        public lastName: string, 
-        public email: string,
-        public id?: string,
-        ){};
+         username: string, password: string, firstName: string, lastName: string,  
+         email: string, id?: string
+        ){
+        super(username,firstName,lastName,email,id);
+        this.password = password;
+    };
 
-  }
+}
