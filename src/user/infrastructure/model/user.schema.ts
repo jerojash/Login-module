@@ -1,4 +1,6 @@
 import { Schema,model } from "mongoose";
+import mongooseUniqueValidator from "mongoose-unique-validator";
+
 
 const UserSchema = new Schema(
     {
@@ -33,6 +35,8 @@ const UserSchema = new Schema(
 
     }
 );
+
+UserSchema.plugin(mongooseUniqueValidator,{ message: 'El campo {PATH} debe ser unico.' })
 
 const UserModel = model("users", UserSchema);
 

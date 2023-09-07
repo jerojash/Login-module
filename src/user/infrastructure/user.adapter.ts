@@ -19,7 +19,7 @@ export class UserAdapterRepository implements IUser<registerUserDTO>{
             return Either.makeRight<Error,registerUserDTO>(UserEntity);
         } catch (error) {
 
-            return Either.makeLeft<Error, registerUserDTO>(new Error(`Ocurrio un error inesperado: ${error}`));
+            return Either.makeLeft<Error, registerUserDTO>(new Error(`Error: ${error}`));
         }
         
     }
