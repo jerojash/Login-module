@@ -19,6 +19,6 @@ export class Password{
 
         if(pass.PasswordValidation()) return Either.makeRight(pass)
 
-        return Either.makeLeft(new Error("Clave invalida. Debe contener mayuscula y un signo especial"))
+        return Either.makeLeft(new Error("Clave invalida. Debe contener minimo un caracter de los siguientes tipos: MAYUSCULAS, SIGNOS ESPECIALES Y NUMEROS."))
     }
 }

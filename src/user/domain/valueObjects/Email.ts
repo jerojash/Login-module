@@ -18,7 +18,7 @@ export class Email{
         
         let user = new Email(email);
 
-        if(user.emailValidation()) return Either.makeLeft(new Error('Correo invalido'));
+        if(!user.emailValidation()) return Either.makeLeft(new Error('Correo invalido. Debe ingresar un correo valido.'));
         
         return Either.makeRight(user);
     }

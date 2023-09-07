@@ -9,7 +9,7 @@ export class Id{
             this.id = id;
         }
     }
-    getIDNota(): string{
+    getId(): string{
         return this.id;
     }
     static create(id?:string): Id{

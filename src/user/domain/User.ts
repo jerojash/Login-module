@@ -14,13 +14,32 @@ export class User{
         private email: Email
     ){}
 
-    static create(first_name: string, last_name: string, username: string, password: string, email: string, id?: string, ): Either<Error,User>{
+    //GETTERS
 
+    public getId() {
+        return this.id
+    }
+    public getFullName() {
+        return this.full_name
+    }
+    public getUsername() {
+        return this.username
+    }
+    public getPassword() {
+        return this.password
+    }
+    public getEmail() {
+        return this.email
+    }
+
+    static create(first_name: string, last_name: string, username: string, password: string, email: string, id?: string, ): Either<Error,User>{
+        
         let id_mvw = Id.create(id);
         let fullname_mvw = FullName.create(first_name,last_name);
         let username_mvw = Username.create(username);
         let password_mvw = Password.create(password);
         let email_mvw = Email.create(email);
+
 
         //El email es incorrecto
         if(email_mvw.isLeft()) return Either.makeLeft(email_mvw.getLeft())

@@ -5,7 +5,8 @@ const UserSchema = new Schema(
         id:{
             type: String,
             require: true,
-            unique: true
+            unique: true,
+            indexedDB: true
         },
         username: {
             type: String,
@@ -16,11 +17,11 @@ const UserSchema = new Schema(
             type: String,
             require: true
         },
-        first_name: {
+        firstName: {
             type: String,
             require: true
         },
-        last_name: {
+        lastName: {
             type: String
         },
         email: {
@@ -33,6 +34,6 @@ const UserSchema = new Schema(
     }
 );
 
-const UserEntity = model("users", UserSchema);
+const UserModel = model("users", UserSchema);
 
-export default UserEntity;
+export default UserModel;
