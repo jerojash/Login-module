@@ -20,7 +20,7 @@ const UserCtrl = new UserController(registerUserService,getUsersService,loginSer
 
 route.post(`/register`, UserCtrl.insertUser);
 
-route.get('/login', UserCtrl.login)
+route.post('/login', UserCtrl.login)
 
 route.get(`/users`, UserCtrl.findUsers);
 
