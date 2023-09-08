@@ -18,7 +18,7 @@ Este repositorio levanta un servidor backend de NodeJs para un modulo de Login. 
 
 Clonar el reposiorio:
 ```bash
-git clone https://github.com/Avila-Tek/next-template.git <folder_name>
+git clone  https://github.com/jerojash/Login-module.git
 ```
 Luego muevete a la carpeta y descarga las dependencias y ejecuta el proyecto
 ```bash
