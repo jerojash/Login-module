@@ -6,7 +6,7 @@ import { IUser } from "../domain/repository/IUser";
 import { Id } from "../domain/valueObjects/Id";
 import UserModel, { UserDocument, UserInterface } from "./model/user.schema";
 import bcrypt from 'bcrypt';
-import { encrypt } from "./utils/bcrypt.handler";
+import { encrypt, verified } from "./utils/bcrypt.handler";
 import mongoose from "mongoose";
 
 export class UserAdapterRepository implements IUser<userReturnDTO>{
@@ -53,11 +53,12 @@ export class UserAdapterRepository implements IUser<userReturnDTO>{
          
         if(!checkUser) return Either.makeLeft<Error, any>(new Error(`Error: No existe el usuario: ${username} en la base de datos.`));
 
-        const json = <UserDocument>checkUser.toJSON()
+        const json = <UserDocument>checkUser.toJSON();
+        const passwordHashed = json.password;
+        const boolean = await verified(password,passwordHashed);
 
-        console.log(json.password)
-        // const passHashed = checkUser.
-        // console.log(passHashed);
+        if (!boolean) return Either.makeLeft<Error, any>(new Error(`Error: Ha ingresado una clave incorrecta`));
+
         return Either.makeRight<Error,any>(checkUser)
     }
 
