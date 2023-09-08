@@ -2,8 +2,17 @@ import mongoose from "mongoose";
 import mongooseUniqueValidator from "mongoose-unique-validator";
 import paginate from 'mongoose-paginate-v2';
 
+export interface UserInterface{
+    id: string;
+    password: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  }
 
-export const UserSchema = new mongoose.Schema(
+
+export const UserSchema = new mongoose.Schema<UserInterface>(
     {
         id:{
             type: String,
@@ -40,9 +49,11 @@ export const UserSchema = new mongoose.Schema(
 UserSchema.plugin(mongooseUniqueValidator,{ message: ' El campo {PATH} debe ser unico' });
 UserSchema.plugin(paginate);
 
-interface UserDocument extends mongoose.Document{}
+export interface UserDocument extends mongoose.Document{
+    [x: string]: any;
+}
 
-//const UserModel = mongoose.model("users", UserSchema);
+// const UserModel = mongoose.model("users", UserSchema);
 
 const UserModel = mongoose.model<
 UserDocument,

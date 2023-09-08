@@ -1,15 +1,15 @@
 import { Either } from "../../generics/Either";
 import { IUser } from "../domain/repository/IUser";
 
-export default class GetUsersApplication{
+export default class LoginUserApplication{
     private UserRepository: IUser<any>;
     constructor(repo: IUser<any>) {
         this.UserRepository = repo;
     }
 
-    async execute(limit: number, page: number): Promise<Either<Error,any>>{
+    async execute(username: string, password: string): Promise<Either<Error,any>>{
         
-        let result = this.UserRepository.getAllUsers(limit, page)
+        let result = this.UserRepository.loginUser(username, password)
         return result
     }
 }
