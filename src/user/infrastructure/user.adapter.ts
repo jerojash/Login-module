@@ -59,7 +59,17 @@ export class UserAdapterRepository implements IUser<userReturnDTO>{
 
         if (!boolean) return Either.makeLeft<Error, any>(new Error(`Error: Ha ingresado una clave incorrecta`));
 
-        return Either.makeRight<Error,any>(checkUser)
+        return Either.makeRight<Error,any>(json)
+    }
+
+    async profileUser(username: string): Promise<Either<Error,any>>{
+        const checkUser = await UserModel.findOne({username}).select("username firstName lastName email").then()
+         
+        if(!checkUser) return Either.makeLeft<Error, any>(new Error(`Error: No existe el usuario: ${username} en la base de datos.`));
+
+        const json = <UserDocument>checkUser.toJSON();
+       
+        return Either.makeRight<Error,any>(json)
     }
 
 }

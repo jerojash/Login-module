@@ -4,16 +4,29 @@ import RegisterUserApplication from "../../application/registerUser";
 import { userReturnDTO } from "../../application/dto/registerUserReturn.dto";
 import GetUsersApplication from "../../application/getAllUsers";
 import LoginUserApplication from "../../application/loginUser";
+import ProfileUserApplication from "../../application/profileUser";
+
+
+declare module "express-session" {
+    interface SessionData {
+      username: string;
+      session_status: boolean;
+    }
+  }
+
+
 
 export default class UserController{
     constructor(
         private userRegister: RegisterUserApplication<userReturnDTO>,
         private getUsers: GetUsersApplication,
-        private loginUser: LoginUserApplication
+        private loginUser: LoginUserApplication,
+        private profileUser: ProfileUserApplication
         ){
         this.insertUser = this.insertUser.bind(this),
         this.findUsers = this.findUsers.bind(this),
-        this.login = this.login.bind(this)
+        this.login = this.login.bind(this),
+        this.seeProfile = this.seeProfile.bind(this)
     }
 
     public async insertUser({body}: Request, res: Response){
@@ -40,11 +53,39 @@ export default class UserController{
         
     }
 
-    public async login({body}: Request, res: Response){
+    public async login(req: Request, res: Response){
+        if(req.session.session_status == true){
+            res.status(400).send("Ya existe una session iniciada");
+        } else{
+            const user = await this.loginUser.execute(req.body.username,req.body.password);
+            if(user.isLeft()) res.status(403).send(user.getLeft().message);
+            else{
+                req.session.username = `${user.getRight().username}`
+                req.session.session_status = true
+                res.status(200).send("Sesion Iniciada.");;
+            } 
+        }
+    }
+
+    public async seeProfile(req:Request, res: Response){
         
-        const user = await this.loginUser.execute(body.username,body.password);
-        if(user.isLeft()) res.status(403).send(user.getLeft().message);
-        else res.send(user.getRight());
+        if(req.session.session_status == true){
+            const user = await this.profileUser.execute(`${req.session.username}`);
+            res.send(user.getRight())
+        } else{
+            res.status(403).send("No hay una sesion activa. Inicie sesion e intente de nuevo.");;
+        }
         
+    }
+
+    public async logout(req:Request, res: Response){
+        
+        if(req.session.session_status == true){
+            req.session.session_status = false
+            res.send("Se ha cerrado la sesion");
+        } else{
+            res.status(400).send("No hay una sesion activa. Inicie sesion e intente de nuevo.");;
+        }
+
     }
 }

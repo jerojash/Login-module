@@ -3,10 +3,16 @@ import "dotenv/config";
 import Express from 'express';
 import  UserRoute  from "./infrastructure/route/user.route";
 import dbInit from "./infrastructure/db/mongo";
+import session from "express-session";
 
 const app = Express();
 app.use(cors());
 app.use(Express.json())
+app.use(session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: false
+}))
 
 const port = process.env.PORT || 3000;
 
