@@ -60,7 +60,7 @@ export default class UserController{
             const user = await this.loginUser.execute(req.body.username,req.body.password);
             if(user.isLeft()) res.status(403).send(user.getLeft().message);
             else{
-                req.session.username = `${user.getRight().username}`
+                req.session.username = `${user.getRight().username}` //PENSÉ EN UTILIZAR JWT PERO AL FINAL ELEGÍ VARIABLES DE SESSIÓN
                 req.session.session_status = true
                 res.status(200).send("Sesion Iniciada.");;
             } 
