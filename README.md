@@ -25,6 +25,7 @@ Luego muevete a la carpeta y descarga las dependencias y ejecuta el proyecto
 npm install
 npm run start
 ```
+Modificar el archivo .env.example
 ## 🛠️ Rutas y Bodys
 #### POST /register
 ```bash
