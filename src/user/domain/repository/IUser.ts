@@ -4,5 +4,5 @@ import { Id } from "../valueObjects/Id";
 
 export interface IUser<T>{
     registerUser(user: User): Promise<Either<Error,T>>;
-    getAllUsers(): Promise<Either<Error,any>>;
+    getAllUsers(limit: number, page: number): Promise<Either<Error,any>>;
 }

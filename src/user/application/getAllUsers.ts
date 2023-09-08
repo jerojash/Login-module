@@ -10,9 +10,9 @@ export default class GetUsersApplication{
         this.UserRepository = repo;
     }
 
-    async execute(): Promise<Either<Error,any>>{
+    async execute(limit: number, page: number): Promise<Either<Error,any>>{
         
-        let result = this.UserRepository.getAllUsers()
+        let result = this.UserRepository.getAllUsers(limit, page)
         return result
     }
 }

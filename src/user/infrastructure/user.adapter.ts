@@ -34,10 +34,10 @@ export class UserAdapterRepository implements IUser<userReturnDTO>{
         
     }
 
-    async getAllUsers(): Promise<Either<Error,any>>{
-        
+    async getAllUsers(limit: number, page: number): Promise<Either<Error,any>>{
+
         try {
-            const users = await UserModel.paginate().then();;
+            const users = await UserModel.paginate({},{limit,page});;
 
             return Either.makeRight<Error,any>(users);
         } catch (error) {

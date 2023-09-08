@@ -23,9 +23,12 @@ export default class UserController{
         
     }
 
-    public async findUsers(req: Request, res: Response){
+    public async findUsers({query}: Request, res: Response){
+        const limit = query.limit || "5"
+        const page = query.page || "1"
 
-        const user = await this.getUsers.execute();
+        
+        const user = await this.getUsers.execute(parseInt(limit.toString()),parseInt(page.toString()));
         
         if(user.isLeft()) res.status(406).send(user.getLeft().message);
         res.send(user.getRight());
