@@ -2,10 +2,13 @@ import { Request, Response } from "express";
 import { registerUserDTO } from "../../application/dto/registerUser.dto";
 import RegisterUserApplication from "../../application/registerUser";
 import { userReturnDTO } from "../../application/dto/registerUserReturn.dto";
+import GetUsersApplication from "../../application/getAllUsers";
 
 export default class UserController{
-    constructor(private userRegister: RegisterUserApplication<userReturnDTO>){
-        this.insertUser = this.insertUser.bind(this)
+    constructor(private userRegister: RegisterUserApplication<userReturnDTO>,
+        private getUsers: GetUsersApplication){
+        this.insertUser = this.insertUser.bind(this),
+        this.findUsers = this.findUsers.bind(this)
     }
 
     public async insertUser({body}: Request, res: Response){
@@ -17,6 +20,15 @@ export default class UserController{
         
         if(user.isLeft()) res.status(406).send(user.getLeft().message)
         else res.send(user.getRight())
+        
+    }
+
+    public async findUsers(req: Request, res: Response){
+
+        const user = await this.getUsers.execute();
+        
+        if(user.isLeft()) res.status(406).send(user.getLeft().message);
+        res.send(user.getRight());
         
     }
 }

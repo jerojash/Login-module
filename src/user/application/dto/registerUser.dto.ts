@@ -1,6 +1,6 @@
-import { registerUserReturnDTO } from "./registerUserReturn.dto";
+import { userReturnDTO } from "./registerUserReturn.dto";
 
-export class registerUserDTO extends registerUserReturnDTO{
+export class registerUserDTO extends userReturnDTO{
 
     public username!: string; 
     public password: string;

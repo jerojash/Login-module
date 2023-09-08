@@ -3,6 +3,7 @@ import { registerUserDTO } from "../application/dto/registerUser.dto";
 import { userReturnDTO } from "../application/dto/registerUserReturn.dto";
 import { User } from "../domain/User";
 import { IUser } from "../domain/repository/IUser";
+import { Id } from "../domain/valueObjects/Id";
 import UserModel from "./model/user.schema";
 import bcrypt from 'bcrypt';
 
@@ -29,6 +30,19 @@ export class UserAdapterRepository implements IUser<userReturnDTO>{
         } catch (error) {
 
             return Either.makeLeft<Error, userReturnDTO>(new Error(`Error: ${error}`));
+        }
+        
+    }
+
+    async getAllUsers(): Promise<Either<Error,any>>{
+        
+        try {
+            const users = await UserModel.paginate().then();;
+
+            return Either.makeRight<Error,any>(users);
+        } catch (error) {
+
+            return Either.makeLeft<Error, any>(new Error(`Error: ${error}`));
         }
         
     }

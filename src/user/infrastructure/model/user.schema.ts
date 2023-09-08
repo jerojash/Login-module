@@ -1,8 +1,9 @@
-import { Schema,model } from "mongoose";
+import mongoose from "mongoose";
 import mongooseUniqueValidator from "mongoose-unique-validator";
+import paginate from 'mongoose-paginate-v2';
 
 
-const UserSchema = new Schema(
+export const UserSchema = new mongoose.Schema(
     {
         id:{
             type: String,
@@ -36,8 +37,16 @@ const UserSchema = new Schema(
     }
 );
 
-UserSchema.plugin(mongooseUniqueValidator,{ message: ' El campo {PATH} debe ser unico' })
+UserSchema.plugin(mongooseUniqueValidator,{ message: ' El campo {PATH} debe ser unico' });
+UserSchema.plugin(paginate);
 
-const UserModel = model("users", UserSchema);
+interface UserDocument extends mongoose.Document{}
+
+//const UserModel = mongoose.model("users", UserSchema);
+
+const UserModel = mongoose.model<
+UserDocument,
+mongoose.PaginateModel<UserDocument>
+>('Users', UserSchema, 'users');
 
 export default UserModel;
