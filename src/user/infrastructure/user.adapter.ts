@@ -37,7 +37,7 @@ export class UserAdapterRepository implements IUser<userReturnDTO>{
     async getAllUsers(limit: number, page: number): Promise<Either<Error,any>>{
 
         try {
-            const users = await UserModel.paginate({},{limit,page});;
+            const users = await UserModel.paginate({},{limit,page,select:"id username firstName lastName email"});;
 
             return Either.makeRight<Error,any>(users);
         } catch (error) {
