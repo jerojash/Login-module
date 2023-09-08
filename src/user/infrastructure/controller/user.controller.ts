@@ -36,16 +36,15 @@ export default class UserController{
         const user = await this.getUsers.execute(parseInt(limit.toString()),parseInt(page.toString()));
         
         if(user.isLeft()) res.status(406).send(user.getLeft().message);
-        res.send(user.getRight());
+        else res.send(user.getRight());
         
     }
 
     public async login({body}: Request, res: Response){
         
         const user = await this.loginUser.execute(body.username,body.password);
-        
         if(user.isLeft()) res.status(406).send(user.getLeft().message);
-        res.send(user.getRight());
+        else res.send(user.getRight());
         
     }
 }

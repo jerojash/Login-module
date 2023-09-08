@@ -50,7 +50,7 @@ export class UserAdapterRepository implements IUser<userReturnDTO>{
 
     async loginUser(username: string, password: string): Promise<Either<Error,any>>{
         const checkUser = await UserModel.findOne({username}).select("id username password firstName lastName email").then()
-        
+         
         if(!checkUser) return Either.makeLeft<Error, any>(new Error(`Error: No existe el usuario: ${username} en la base de datos.`));
 
         const json = <UserDocument>checkUser.toJSON()

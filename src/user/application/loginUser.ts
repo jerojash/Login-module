@@ -9,7 +9,8 @@ export default class LoginUserApplication{
 
     async execute(username: string, password: string): Promise<Either<Error,any>>{
         
-        let result = this.UserRepository.loginUser(username, password)
-        return result
+        let result = await this.UserRepository.loginUser(username, password)
+        if(result.isLeft()) return Either.makeLeft<Error, any>(result.getLeft())
+        return Either.makeRight<Error, any>(result.getRight())
     }
 }
