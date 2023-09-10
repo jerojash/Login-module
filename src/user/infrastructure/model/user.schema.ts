@@ -55,7 +55,7 @@ export interface UserDocument extends mongoose.Document{
 
 // const UserModel = mongoose.model("users", UserSchema);
 
-const UserModel = mongoose.model<
+const UserModel: mongoose.PaginateModel<UserDocument, {}, {}> = mongoose.model<
 UserDocument,
 mongoose.PaginateModel<UserDocument>
 >('Users', UserSchema, 'users');
