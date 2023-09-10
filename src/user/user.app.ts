@@ -1,7 +1,7 @@
 import cors from "cors";
 import "dotenv/config";
 import Express from 'express';
-import  UserRoute  from "./infrastructure/route/user.route";
+import  UserRoute  from "./infrastructure/routes/user.route";
 import dbInit from "./infrastructure/db/mongo";
 import session from "express-session";
 

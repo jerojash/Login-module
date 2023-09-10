@@ -1,7 +1,7 @@
-## <em> MODULO DE LOGIN: ARQUITECTURA HEXAGONAL Y DDD </em>
+## <em> MODULO DE LOGIN: ARQUITECTURA HEXAGONAL, DDD, MONGODB Y EXPRESS </em>
 ☑️ Proyecto Terminado ☑️
 
-Este repositorio levanta un servidor backend de NodeJs para un modulo de Login. Todo esto aplicando buenas practicas con Arquitectura Hexagonal y DDD.
+Este repositorio levanta un servidor backend de NodeJs para un modulo de Login. Utiliando Express y MongoDB. Todo esto aplicando buenas practicas con Arquitectura Hexagonal y DDD.
 
 ## 📔 Funcionalidades
 
@@ -9,10 +9,11 @@ Este repositorio levanta un servidor backend de NodeJs para un modulo de Login. 
     - El correo debe ser un correo valido (debe terminar en @___.com).
     - La clave debe contener mayúsculas, signos especiales, números y mínimo 8 caracteres (Ejem: Clavenueva1.).
     - El correo y el nombre de usuario son únicos.
-- `Ver Lista de Usuarios`: Se podrá acceder a la lista de usuarios con paginación.
-- `Login de Usuario`: El usuario podrá iniciar sesión son su nombre de usuario y contraseña. Sólo puede haber una sesión abierta.
-- `Ver perfil del usuario`: El usuario podrá ver sus datos de perfil siempre y cuando tenga una sesión iniciada.
-- `Logout de Usuario`: El usuario podrá cerrar la sesión.
+    - El nombre de usuario debe contener minimo 6 caracteres.
+- `Ver Lista de Usuarios`: Se podrá acceder a la lista de usuarios con paginación. No hace falta estar autorizado.
+- `Login de Usuario`: El usuario podrá iniciar sesión son su nombre de usuario y contraseña. Este servicio devolverá un JWT al iniciar sesión. En caso de volver a llamar el servicio sin hacer Logout, este devolverá el JWT de la última sesión activa en caso de que se haya perdido el token.
+- `Ver perfil del usuario`: El usuario podrá ver sus datos de perfil siempre y cuando tenga una sesión iniciada y esté autorizado.
+- `Logout de Usuario`: El usuario podrá cerrar la sesión si está autorizado.
 
 ## 🛠️ Cómo correr el proyecto
 
@@ -46,7 +47,12 @@ Modificar el archivo .env.example
 }
 ```
 #### POST /logout
-
+```bash
+En este caso el usuario debe estar autorizado con el token proporcionado en el Login.
+```
 
 #### GET /profile
+```bash
+Al igual que el servicio de LOGOUT, el usuario debe estar autorizado con el token proporcionado en el Login.
+```
 

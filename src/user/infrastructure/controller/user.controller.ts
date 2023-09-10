@@ -5,12 +5,15 @@ import { userReturnDTO } from "../../application/dto/registerUserReturn.dto";
 import GetUsersApplication from "../../application/getAllUsers";
 import LoginUserApplication from "../../application/loginUser";
 import ProfileUserApplication from "../../application/profileUser";
+import { JwtPayload } from "jsonwebtoken";
 
 
 declare module "express-session" {
     interface SessionData {
       username: string;
       session_status: boolean;
+      jwt: string;
+      user_id: string;
     }
   }
 
@@ -54,15 +57,16 @@ export default class UserController{
     }
 
     public async login(req: Request, res: Response){
-        if(req.session.session_status == true){
-            res.status(400).send("Ya existe una session iniciada");
-        } else{
-            const user = await this.loginUser.execute(req.body.username,req.body.password);
-            if(user.isLeft()) res.status(403).send(user.getLeft().message);
-            else{
-                req.session.username = `${user.getRight().username}` //PENSÉ EN UTILIZAR JWT PERO AL FINAL ELEGÍ VARIABLES DE SESSIÓN
+        
+        const user = await this.loginUser.execute(req.body.username,req.body.password);
+        if(user.isLeft()) res.status(403).send(user.getLeft().message);
+        else{
+            if(req.session.session_status == true){
+                res.status(200).send({"token": req.session.jwt,"message": "Este token es el último generado. No se ha cerrado la sesión."});
+            } else{
                 req.session.session_status = true
-                res.status(200).send("Sesion Iniciada.");;
+                req.session.jwt = user.getRight().token;
+                res.status(200).send(user.getRight());
             } 
         }
     }
@@ -70,8 +74,8 @@ export default class UserController{
     public async seeProfile(req:Request, res: Response){
         
         if(req.session.session_status == true){
-            const user = await this.profileUser.execute(`${req.session.username}`);
-            res.send(user.getRight())
+            const user = await this.profileUser.execute(`${req.session.user_id}`);
+            res.send(user.getRight());
         } else{
             res.status(403).send("No hay una sesion activa. Inicie sesion e intente de nuevo.");;
         }

@@ -1,10 +1,11 @@
 import express, { Router } from "express";
-import { UserAdapterRepository } from "../user.adapter";
+import { UserAdapterRepository } from "../adapters/user.adapter";
 import UserController from "../controller/user.controller";
 import RegisterUserApplication from "../../application/registerUser";
 import GetUsersApplication from "../../application/getAllUsers";
 import LoginUserApplication from "../../application/loginUser";
 import ProfileUserApplication from "../../application/profileUser";
+import { checkJwt } from "../middleware/sessionJwt";
 
 
 
@@ -30,9 +31,9 @@ route.post('/login', UserCtrl.login)
 
 route.get(`/users`, UserCtrl.findUsers);
 
-route.get(`/profile`, UserCtrl.seeProfile);
+route.get(`/profile`, checkJwt, UserCtrl.seeProfile);
 
-route.post(`/logout`, UserCtrl.logout);
+route.post(`/logout`, checkJwt, UserCtrl.logout);
 
 export default route
 
