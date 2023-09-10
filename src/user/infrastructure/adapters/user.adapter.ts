@@ -1,13 +1,14 @@
-import { Either } from "../../generics/Either";
-import { registerUserDTO } from "../application/dto/registerUser.dto";
-import { userReturnDTO } from "../application/dto/registerUserReturn.dto";
-import { User } from "../domain/User";
-import { IUser } from "../domain/repository/IUser";
-import { Id } from "../domain/valueObjects/Id";
-import UserModel, { UserDocument, UserInterface } from "./model/user.schema";
+import { Either } from "../../../generics/Either";
+import { registerUserDTO } from "../../application/dto/registerUser.dto";
+import { userReturnDTO } from "../../application/dto/registerUserReturn.dto";
+import { User } from "../../domain/User";
+import { IUser } from "../../domain/repository/IUser";
+import { Id } from "../../domain/valueObjects/Id";
+import UserModel, { UserDocument, UserInterface } from "../model/user.schema";
 import bcrypt from 'bcrypt';
-import { encrypt, verified } from "./utils/bcrypt.handler";
+import { encrypt, verified } from "../utils/bcrypt.handler";
 import mongoose from "mongoose";
+import { generateToken } from "../utils/jwt.handler";
 
 export class UserAdapterRepository implements IUser<userReturnDTO>{
     async registerUser(user: User): Promise<Either<Error,userReturnDTO>>{
@@ -49,7 +50,7 @@ export class UserAdapterRepository implements IUser<userReturnDTO>{
     }
 
     async loginUser(username: string, password: string): Promise<Either<Error,any>>{
-        const checkUser = await UserModel.findOne({username}).select("id username password firstName lastName email").then()
+        const checkUser = await UserModel.findOne({username}).select("id username password").then()
          
         if(!checkUser) return Either.makeLeft<Error, any>(new Error(`Error: No existe el usuario: ${username} en la base de datos.`));
 
@@ -59,13 +60,15 @@ export class UserAdapterRepository implements IUser<userReturnDTO>{
 
         if (!boolean) return Either.makeLeft<Error, any>(new Error(`Error: Ha ingresado una clave incorrecta`));
 
-        return Either.makeRight<Error,any>(json)
+        const jwt = generateToken(json.id);
+        return Either.makeRight<Error,any>({"token": jwt,"message": "El token expira en 30min"});
     }
 
-    async profileUser(username: string): Promise<Either<Error,any>>{
-        const checkUser = await UserModel.findOne({username}).select("username firstName lastName email").then()
-         
-        if(!checkUser) return Either.makeLeft<Error, any>(new Error(`Error: No existe el usuario: ${username} en la base de datos.`));
+    async profileUser(id: string): Promise<Either<Error,any>>{
+        
+        const checkUser = await UserModel.findOne({id}).select("username firstName lastName email").then()
+        
+        if(!checkUser) return Either.makeLeft<Error, any>(new Error(`Error: No existe el usuario en la base de datos.`));
 
         const json = <UserDocument>checkUser.toJSON();
        

@@ -7,9 +7,8 @@ export default class ProfileUserApplication{
         this.UserRepository = repo;
     }
 
-    async execute(username: string): Promise<Either<Error,any>>{
-        
-        let result = await this.UserRepository.profileUser(username)
+    async execute(id: string): Promise<Either<Error,any>>{
+        let result = await this.UserRepository.profileUser(id)
         if(result.isLeft()) return Either.makeLeft<Error, any>(result.getLeft())
         return Either.makeRight<Error, any>(result.getRight())
     }
