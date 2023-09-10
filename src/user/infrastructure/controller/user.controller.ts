@@ -12,6 +12,7 @@ declare module "express-session" {
     interface SessionData {
       username: string;
       session_status: boolean;
+      jwt: string;
       user_id: string;
     }
   }
@@ -56,13 +57,15 @@ export default class UserController{
     }
 
     public async login(req: Request, res: Response){
-        if(req.session.session_status == true){
-            res.status(400).send("Ya existe una sesion iniciada. Primero cierre sesión e intente de nuevo.");
-        } else{
-            const user = await this.loginUser.execute(req.body.username,req.body.password);
-            if(user.isLeft()) res.status(403).send(user.getLeft().message);
-            else{
+        
+        const user = await this.loginUser.execute(req.body.username,req.body.password);
+        if(user.isLeft()) res.status(403).send(user.getLeft().message);
+        else{
+            if(req.session.session_status == true){
+                res.status(200).send({"token": req.session.jwt,"message": "Este token es el último generado. No se ha cerrado la sesión."});
+            } else{
                 req.session.session_status = true
+                req.session.jwt = user.getRight().token;
                 res.status(200).send(user.getRight());
             } 
         }

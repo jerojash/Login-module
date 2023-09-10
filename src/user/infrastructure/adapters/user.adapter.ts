@@ -61,7 +61,7 @@ export class UserAdapterRepository implements IUser<userReturnDTO>{
         if (!boolean) return Either.makeLeft<Error, any>(new Error(`Error: Ha ingresado una clave incorrecta`));
 
         const jwt = generateToken(json.id);
-        return Either.makeRight<Error,any>({"token": jwt,"message": "El token expira en 30min"});
+        return Either.makeRight<Error,any>({"token": jwt,"message": "El nuevo token expira en 30min"});
     }
 
     async profileUser(id: string): Promise<Either<Error,any>>{

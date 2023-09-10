@@ -40,6 +40,8 @@ export class User{
         let password_mvw = Password.create(password);
         let email_mvw = Email.create(email);
 
+        //El username es incorrecto
+        if(username_mvw.isLeft()) return Either.makeLeft(username_mvw.getLeft())  
 
         //El email es incorrecto
         if(email_mvw.isLeft()) return Either.makeLeft(email_mvw.getLeft())
@@ -47,7 +49,7 @@ export class User{
         //La clave es incorrecta
         if(password_mvw.isLeft()) return Either.makeLeft(password_mvw.getLeft())        
         
-        return Either.makeRight<Error,User>(new User(id_mvw,fullname_mvw,username_mvw,password_mvw.getRight(),email_mvw.getRight()));
+        return Either.makeRight<Error,User>(new User(id_mvw,fullname_mvw,username_mvw.getRight(),password_mvw.getRight(),email_mvw.getRight()));
     } 
 
 }
