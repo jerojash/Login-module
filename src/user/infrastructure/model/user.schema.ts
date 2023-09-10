@@ -12,7 +12,7 @@ export interface UserInterface{
   }
 
 
-export const UserSchema = new mongoose.Schema<UserInterface>(
+export const UserSchema: mongoose.Schema<UserInterface> = new mongoose.Schema<UserInterface>(
     {
         id:{
             type: String,
