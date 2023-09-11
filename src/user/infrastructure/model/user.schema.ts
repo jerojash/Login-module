@@ -12,7 +12,7 @@ export interface UserInterface{
   }
 
 
-export const UserSchema = new mongoose.Schema<UserInterface>(
+export const UserSchema: mongoose.Schema<UserInterface> = new mongoose.Schema<UserInterface>(
     {
         id:{
             type: String,
@@ -55,7 +55,7 @@ export interface UserDocument extends mongoose.Document{
 
 // const UserModel = mongoose.model("users", UserSchema);
 
-const UserModel = mongoose.model<
+const UserModel: mongoose.PaginateModel<UserDocument, {}, {}> = mongoose.model<
 UserDocument,
 mongoose.PaginateModel<UserDocument>
 >('Users', UserSchema, 'users');

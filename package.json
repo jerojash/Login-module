@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/user/user.app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/user/user.app.ts",
+    "build": "tsc",
+    "start": "node dist/user/user.app.js"
   },
   "keywords": [],
   "author": "",
