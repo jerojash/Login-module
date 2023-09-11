@@ -67,7 +67,7 @@ npm run start
 ```bash
 En este caso el usuario debe estar autorizado con el token proporcionado en el Login.
 ```
-![Image text](img\auth.png)
+![Image](./img/auth.jpg)
 
 
 #### GET /profile
