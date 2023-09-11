@@ -26,12 +26,24 @@ Copia y pega el archivo .env.example.
 A la copia, elimina la extension .example de modo que el nombre del archivo quede: '.env'.
 Configura las variables de acuerdo a tu entorno de desarrollo.
 ```
+### Nota importante.
+###### Para efectos de este proyecto tambien se dejarán las variables de entorno usadas en el desarrollo del proyecto en el archivo .env.example. Esto en caso de que no cuenten con una base de datos MongoDB en local. Así que tendrán acceso al cluster en MongoDB Atlas.
 
- Descarga las dependencias y ejecuta el proyecto:
+ Descarga las dependencias:
 ```bash
 npm install
+```
+ Generar la carpeta dist:
+```bash
+npm run build
+```
+Correr el proyecto:
+```bash
 npm run start
 ```
+
+
+
 ## 🛠️ Rutas y Bodys
 #### POST /register
 ```bash
