@@ -9,7 +9,6 @@ Este repositorio levanta un servidor backend de NodeJs para un modulo de Login. 
     - El correo debe ser un correo valido (debe terminar en @___.com).
     - La clave debe contener mayúsculas, signos especiales, números y mínimo 8 caracteres (Ejem: Clavenueva1.).
     - El correo y el nombre de usuario son únicos.
-    - El nombre de usuario debe contener minimo 6 caracteres.
 - `Ver Lista de Usuarios`: Se podrá acceder a la lista de usuarios con paginación. No hace falta estar autorizado.
 - `Login de Usuario`: El usuario podrá iniciar sesión son su nombre de usuario y contraseña. Este servicio devolverá un JWT al iniciar sesión. En caso de volver a llamar el servicio sin hacer Logout, este devolverá el JWT de la última sesión activa en caso de que se haya perdido el token.
 - `Ver perfil del usuario`: El usuario podrá ver sus datos de perfil siempre y cuando tenga una sesión iniciada y esté autorizado.
@@ -21,12 +20,18 @@ Clonar el reposiorio:
 ```bash
 git clone  https://github.com/jerojash/Login-module.git
 ```
-Luego muevete a la carpeta y descarga las dependencias y ejecuta el proyecto
+Luego muevete a la carpeta y configura las variables de entorno:
+```bash
+Copia y pega el archivo .env.example.
+A la copia, elimina la extension .example de modo que el nombre del archivo quede: '.env'.
+Configura las variables de acuerdo a tu entorno de desarrollo.
+```
+
+ Descarga las dependencias y ejecuta el proyecto:
 ```bash
 npm install
 npm run start
 ```
-Modificar el archivo .env.example
 ## 🛠️ Rutas y Bodys
 #### POST /register
 ```bash
